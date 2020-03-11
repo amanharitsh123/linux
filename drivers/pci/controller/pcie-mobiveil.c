@@ -456,10 +456,8 @@ static int mobiveil_pcie_parse_dt(struct mobiveil_pcie *pcie)
 		pcie->ppio_wins = MAX_PIO_WINDOWS;
 
 	pcie->irq = platform_get_irq(pdev, 0);
-	if (pcie->irq <= 0) {
-		dev_err(dev, "failed to map IRQ: %d\n", pcie->irq);
-		return -ENODEV;
-	}
+	if (pcie->irq < 0)
+		return pcie->irq;
 
 	return 0;
 }
