@@ -1552,10 +1552,8 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
 	}
 
 	pp->irq = platform_get_irq_byname(pdev, "intr");
-	if (!pp->irq) {
-		dev_err(dev, "Failed to get \"intr\" interrupt\n");
-		return -ENODEV;
-	}
+	if (pp->irq < 0)
+		return pp->irq;
 
 	ret = devm_request_irq(dev, pp->irq, tegra_pcie_irq_handler,
 			       IRQF_SHARED, "tegra-pcie-intr", pcie);
